@@ -1,5 +1,5 @@
 ---
 base_url: https://download.postgresql.org/pub/repos/yum/reporpms
 version_conf: EL-{{ ansible_distribution_major_version }}-x86_64
-url: pgdg-redhat-repo-latest.noarch.rpm
-repo_url: "{{ base_url }}/{{ version_conf }}/{{ url }}"
+end_point: pgdg-redhat-repo-latest.noarch.rpm
+repo_url: "{{ base_url }}/{{ version_conf }}/{{ end_point }}"
