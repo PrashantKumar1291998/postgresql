@@ -43,7 +43,7 @@ Sample playbook will look something like this,
 Testing
 ------------
 
-To test using molecule, define package to install and user list and database list in test_default.py
+To test using molecule, define package to install, user list and database list in test_default.py
 
 Author Information
 ------------------

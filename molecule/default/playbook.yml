@@ -2,4 +2,4 @@
 - name: Converge
   hosts: all
   roles:
-    - role: postgresql
+    - role: osm_postgresql
