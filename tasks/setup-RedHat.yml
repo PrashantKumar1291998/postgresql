@@ -1,0 +1,36 @@
+---
+- name: Install the repository RPM
+  yum:
+    name: "{{ repo_url }}"
+    state: present
+    update_cache: true
+
+- name: Install the client packages
+  yum:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  with_items:
+    - postgresql-contrib
+    - postgresql-devel
+    - python-psycopg2
+    - postgresql{{ version | replace('.', '') }}
+    - postgresql{{ version | replace('.', '') }}-server
+
+- name: Ensure PostgreSQL database is initialized.
+  command: service postgresql-{{ version }} initdb
+  changed_when: false
+  args:
+    warn: false
+
+- name: Enable the postgres service
+  service:
+    name: postgresql-{{ version }}
+    enabled: true
+  notify:
+    - restart postgresql
+
+- name: Start postgresql
+  service:
+    name: postgresql-{{ version }}
+    state: started

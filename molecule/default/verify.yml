@@ -1,0 +1,5 @@
+---
+- name: Verify
+  hosts: all
+  vars_files:
+    - default/main.yml

@@ -1,0 +1,14 @@
+---
+postgresql_database: true
+version: 9.5
+postgresql_users: true
+user_list_attr: {attr: CREATEROLE, INHERIT, BYPASSRLS, CREATEDB}
+user_list:
+        - {user: demo1, password: password1, -user_list_attr}
+        - {user: demo2, password: password2, attr: CREATEROLE, INHERIT}
+database_list:
+        - {db: test1}
+        - {db: test2}
+user: postgres
+group: postgres
+...

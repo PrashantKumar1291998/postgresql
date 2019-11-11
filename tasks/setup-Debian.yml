@@ -1,0 +1,54 @@
+---
+- name: Install Gpg
+  apt:
+    name: gnupg
+    state: present
+#  when: check_gpg.rc > 0
+
+- name: Define postgresql_repo_url
+  set_fact:
+    postgresql_repo_url: "{{ postgresql_repo_url }}"
+  when: postgresql_repo_url is not defined
+
+- name: Define postgresql_repo_key_url
+  set_fact:
+    postgresql_repo_key_url: "{{ postgresql_repo_key_url }}"
+  when: postgresql_repo_key_url is not defined
+
+- name: Add Postgresql apt repository key.
+  apt_key:
+    url: "{{ postgresql_repo_key_url }}"
+    state: present
+
+- name: Add Postgresql apt repository.
+  apt_repository:
+    repo: "{{ postgresql_repo_url }}"
+    state: present
+  when: postgresql_repo_url | length > 0
+
+- name: Install PostgreSQL on Ubuntu
+  apt:
+    name: "{{ item }}"
+    update_cache: true
+    state: present
+  with_items:
+    - python-psycopg2
+    - libpq-dev
+    - pgadmin4
+    - postgresql-client-{{ version }}
+    - postgresql-{{ version }}
+    - postgresql-contrib-{{ version }}
+    - postgresql-server-dev-{{ version }}
+  become: true
+
+- name: Enable the postgres service
+  service:
+    name: postgresql
+    enabled: true
+  notify:
+    - restart postgresql
+
+- name: Start postgresql
+  service:
+    name: postgresql
+    state: started
