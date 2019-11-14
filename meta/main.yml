@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: Abhishek Vishwakarma
-  description: Install nginx and configure Virtual Hosting
+  description: Install and configure postgresql
   company: Opstree Solutions
 
   # If the issue tracker for your role is not on github, uncomment the
