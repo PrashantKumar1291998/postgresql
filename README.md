@@ -1,7 +1,23 @@
-ANSIBLE Role for postgreSQL
-===========================
+#
 
-This role can be used to install postgreSQL on LINUX Server including Ubuntu, centOS etc., This role is customizable, it support basic functionalities like creating database and users. Users can modify the role as per there requirements.
+Ansible Role: oms_postgreSQL
+============================
+
+This role can be used to install postgreSQL. This role is customizable, it support basic functionalities like creating database and users. Users can modify the role as per there requirements.
+
+Version History
+---------------
+
+|**Date**| **Version**| **Description**| **Changed By** |
+|----------|---------|---------------|-----------------|
+|**June '15** | v.1.0 | Initial Draft | Sudipt Sharma |
+
+Supported OS
+------------
+  * CentOS:7
+  * CentOS:6
+  * Ubuntu:bionic
+  * Ubuntu:xenial
 
 Requirements
 ------------
@@ -10,26 +26,33 @@ There is no such requirements for the role.
 
 Role Variables
 --------------
+The role variables are defined in the [vars](https://gitlab.com/oosm/osm_pstgresql/tree/master/defaults). Here is the list of variables that is used in this role
 
-For now these are the varibales which we are using in our role, which are pretty much basic and are self defining, 
-# use this option when want to create database (true/ false) 
-postgresql_database: 
-# define the version here (11, 10, 9.4, 9.5, 9.6)
-version: 
-# use this option when want to create user (true/ false)
-postgresql_users: 
-# when creating user, provide list of users here,
+```yaml
+# vars file for postgresql
+postgresql_database: true
+version: 9.5
+postgresql_users: true
+user_list_attr: {attr: CREATEROLE, INHERIT, BYPASSRLS, CREATEDB}
 user_list:
-# when creating database, provide list of databases here,
+        - {user: demo1, password: password1, -user_list_attr}
+        - {user: demo2, password: password2, attr: CREATEROLE, INHERIT}
 database_list:
-# user & group of the postgreSQL
-user: 
-group: 
+        - {db: test1}
+        - {db: test2}
+user: postgres
+group: postgres
+```
+|Variable | Description|
+|---------|------------|
+| postgresql_database| Set true when want to create database|
+| version | Define version of postgresql|
+| postgresql_users | Set true when want to create user|
+| user_list_attr | List of users to create|
+| database_list | List of database to create|
+| user| User of the postgreSQL|
+| group | Group of the postgreSQL |
 
-Dependencies
-------------
-
-There are no such dependencies, 
 
 Example Playbook
 ----------------
