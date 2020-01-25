@@ -10,7 +10,7 @@
     name: "{{ item }}"
     state: present
     update_cache: true
-  with_items:
+  loop:
     - postgresql-contrib
     - postgresql-devel
     - python-psycopg2
@@ -19,7 +19,7 @@
 
 - name: Ensure PostgreSQL database is initialized.
   command: service postgresql-{{ version }} initdb
-  changed_when: false
+  changed_when: true
   args:
     warn: false
 

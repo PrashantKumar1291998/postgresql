@@ -3,7 +3,6 @@
   apt:
     name: gnupg
     state: present
-#  when: check_gpg.rc > 0
 
 - name: Define postgresql_repo_url
   set_fact:
@@ -31,7 +30,7 @@
     name: "{{ item }}"
     update_cache: true
     state: present
-  with_items:
+  loop:
     - python-psycopg2
     - libpq-dev
     - pgadmin4
@@ -39,7 +38,6 @@
     - postgresql-{{ version }}
     - postgresql-contrib-{{ version }}
     - postgresql-server-dev-{{ version }}
-  become: true
 
 - name: Enable the postgres service
   service:
