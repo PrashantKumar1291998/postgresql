@@ -18,19 +18,31 @@
     - postgresql{{ version | replace('.', '') }}-server
 
 - name: Ensure PostgreSQL database is initialized.
-  command: service postgresql-{{ version }} initdb
+  raw: service postgresql-{{ version }} initdb
   changed_when: true
-  args:
-    warn: false
+  when: ansible_distribution_major_version == "6"
 
-- name: Enable the postgres service
-  service:
-    name: postgresql-{{ version }}
-    enabled: true
-  notify:
-    - restart postgresql
+- name: Set bin location to setup PostgreSQL
+  set_fact:
+    setup_loc: /usr/pgsql-{{ version }}/bin/postgresql
+
+- name: Ensure PostgreSQL database is initialized.
+  command: "{{ setup_loc }}-{{ version | replace('.', '') }}-setup initdb"
+  changed_when: true
+  when: ansible_distribution_major_version == "7"
 
 - name: Start postgresql
   service:
     name: postgresql-{{ version }}
     state: started
+    enabled: true
+
+- name: Congfigure Postgresql
+  template:
+    src: centos_postgresql.j2
+    dest: /var/lib/pgsql/{{ version }}/data/postgresql.conf
+
+- name: Restart postgresql
+  service:
+    name: postgresql-{{ version }}
+    state: restarted
