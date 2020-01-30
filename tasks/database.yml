@@ -7,4 +7,3 @@
     - "{{ database_list }}"
   become_user: postgres
   become: true
-...
