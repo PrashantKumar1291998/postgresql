@@ -1,9 +1,7 @@
-#
-
 Ansible Role: oms_postgreSQL
 ============================
 
-This role can be used to install postgreSQL. This role is customizable, it support basic functionalities like creating database and users. Users can modify the role as per there requirements.
+This role can be used to install postgreSQL with version 9.5 and above. This role is customizable, it support basic functionalities like creating database and users. Users can modify the role as per there requirements.
 
 Version History
 ---------------
