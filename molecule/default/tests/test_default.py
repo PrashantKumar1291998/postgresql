@@ -6,67 +6,73 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
     os.environ['MOLECULE_INVENTORY_FILE']
 ).get_hosts('all')
 
-debian_pkg = []
-debian_pkg.append('python-psycopg2')
-debian_pkg.append('libpq-dev')
-debian_pkg.append('pgadmin4')
-debian_pkg.append('postgresql-client-9.5')
-debian_pkg.append('postgresql-9.5')
-debian_pkg.append('postgresql-contrib-9.5')
-debian_pkg.append('postgresql-server-dev-9.5')
+@pytest.fixture
+def get_vars(host):
+    defaults_files = "file=../../defaults/main.yml name=role_defaults"
+    debian_files = "file=../../vars/Debian.yml name=role_debian"
+    redhat_files = "file=../../vars/RedHat.yml name=role_redhat"
+
+    ansible_vars = host.ansible(
+        "include_vars",
+        defaults_files)["ansible_facts"]["role_defaults"]
+
+    ansible_vars.update(host.ansible(
+        "include_vars",
+        debian_files)["ansible_facts"]["role_debian"])
+
+    ansible_vars.update(host.ansible(
+        "include_vars",
+        redhat_files)["ansible_facts"]["role_redhat"])
+
+    return ansible_vars
 
 
-def test_debian_pkg(host):
+def test_pkg_install(host, get_vars):
     os = host.system_info.distribution
+    version = str(get_vars['version'])
 
-    if os == 'debian':
-        debian_package = host.package(debian_pkg)
+    if os == 'ubuntu':
+        for pkg in get_vars['debian_package']:
+            if (pkg.find("{{ version }}") != -1):
+                pkg =pkg.replace("{{ version }}",version)
+            
+            debian_package = host.package(pkg)
+            assert debian_package.is_installed
 
-        assert debian_package.is_installed
+    if os == 'Centos':
+        for pkg in get_vars['redhat_package']:
+            if (pkg.find("{{ version | replace('.', '') }}") != -1):
+                version =version.replace('.','')
+                pkg =pkg.replace("{{ version | replace('.', '') }}",version)
+
+            redhat_package = host.package(pkg)
+            assert redhat_package.is_installed
 
 
-redhat_pkg = []
-redhat_pkg.append('postgresql-contrib')
-redhat_pkg.append('postgresql-devel')
-redhat_pkg.append('python-psycopg2')
-redhat_pkg.append('postgresql95')
-redhat_pkg.append('postgresql95-server')
-
-
-def test_redhat_pkg(host):
+def test_postgresql_service(host, get_vars):
     os = host.system_info.distribution
-
-    if os == 'redhat':
-        redhat_package = host.package(redhat_pkg)
-
-        assert redhat_package.is_installed
-
-
-def test_postgresql_service(host):
-    os = host.system_info.distribution
-
-    if os == 'debian':
+    version = str(get_vars['version'])
+    if os == 'ubuntu':        
         debian_service = host.service('postgresql')
 
         assert debian_service.is_running
 
-    elif os == 'redhat':
-        redhat_service = host.service('postgresql9.5')
+    elif os == 'CentOS':
+        redhat_service = host.service("".join(['postgresql', version]))
 
         assert redhat_service.is_running
 
 
-@pytest.mark.parametrize('user', ['demo1', 'demo2'])
-def test_user(host, user):
-    c1 = "sudo -u postgres psql -t -c"
-    user_status = host.run(c1+"'\\du' | cut -d \\| -f 1 | grep -w "+user)
+def test_user(host, get_vars):
+    c1 = "sudo -u postgres psql -t -c '\\du' | cut -d '|' -f 1"
+    for users in get_vars['user_list']:
+        user_status = host.run(c1+"| grep -w "+ users['user'])
+        assert user_status.succeeded
 
-    assert user_status.succeeded
 
-
-@pytest.mark.parametrize('db', ['test1', 'test2'])
-def test_database(host, db):
-    c1 = "sudo -u postgres psql -t -c"
-    db_status = host.run(c1+"'\\l' | cut -d \\| -f 1 | grep -w "+db)
+def test_database(host, get_vars):
+    c1 = "sudo -u postgres psql -t -c'\\l' | cut -d '|' -f 1"
+    for db in get_vars['database_list']:
+        db_status = host.run(c1+"| grep -w "+ db['db'])
 
     assert db_status.succeeded

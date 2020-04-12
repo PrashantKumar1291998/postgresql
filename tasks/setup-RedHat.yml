@@ -11,11 +11,7 @@
     state: present
     update_cache: true
   loop:
-    - postgresql-contrib
-    - postgresql-devel
-    - python-psycopg2
-    - postgresql{{ version | replace('.', '') }}
-    - postgresql{{ version | replace('.', '') }}-server
+    - '{{ redhat_package }}'
 
 - name: Ensure PostgreSQL database is initialized.
   raw: service postgresql-{{ version }} initdb

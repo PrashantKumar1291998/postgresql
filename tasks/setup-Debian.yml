@@ -20,13 +20,7 @@
     update_cache: true
     state: present
   loop:
-    - python-psycopg2
-    - libpq-dev
-    - pgadmin4
-    - postgresql-client-{{ version }}
-    - postgresql-{{ version }}
-    - postgresql-contrib-{{ version }}
-    - postgresql-server-dev-{{ version }}
+    - '{{ debian_package }}'
 
 - name: Start postgresql
   service:

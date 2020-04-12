@@ -3,3 +3,11 @@ base_url: deb http://apt.postgresql.org/pub/repos/apt
 version_release: "{{ ansible_distribution_release }}"
 postgresql_repo_url: "{{ base_url }}/ {{ version_release }}-pgdg main"
 postgresql_repo_key_url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+debian_package:
+  - python-psycopg2
+  - libpq-dev
+  - pgadmin4
+  - postgresql-client-{{ version }}
+  - postgresql-{{ version }}
+  - postgresql-contrib-{{ version }}
+  - postgresql-server-dev-{{ version }}
