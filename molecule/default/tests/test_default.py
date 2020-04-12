@@ -58,7 +58,7 @@ def test_postgresql_service(host, get_vars):
         assert debian_service.is_running
 
     elif os == 'CentOS':
-        redhat_service = host.service("".join(['postgresql', version]))
+        redhat_service = host.service("".join(['postgresql-', version]))
 
         assert redhat_service.is_running
 
