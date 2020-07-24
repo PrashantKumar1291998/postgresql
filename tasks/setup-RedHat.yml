@@ -23,7 +23,7 @@
     setup_loc: /usr/pgsql-{{ version }}/bin/postgresql
 
 - name: Ensure PostgreSQL database is initialized.
-  command: "{{ setup_loc }}-{{ version | replace('.', '') }}-setup initdb"
+  command: "{{ setup_loc }}{{ version | replace('.', '') }}-setup initdb"
   changed_when: true
   when: ansible_distribution_major_version == "7"
 
