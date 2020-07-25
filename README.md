@@ -37,23 +37,6 @@ The role variables are defined in the [vars](https://gitlab.com/oosm/osm_pstgres
 | group | Group of the postgreSQL |
 
 
-
-```yaml
-# vars file for postgresql
-postgresql_database: true
-version: 9.5
-postgresql_users: true
-user_list_attr: {attr: CREATEROLE, INHERIT, BYPASSRLS, CREATEDB}
-user_list:
-        - {user: demo1, password: password1, -user_list_attr}
-        - {user: demo2, password: password2, attr: CREATEROLE, INHERIT}
-database_list:
-        - {db: test1}
-        - {db: test2}
-user: postgres
-group: postgres
-```
-
 Inventory
 ----------
 An inventory should look like this:-
@@ -61,7 +44,7 @@ An inventory should look like this:-
 [postgres]                 
 192.168.1.198    ansible_user=ubuntu   
 192.168.3.201    ansible_user=opstree 
-
+```
 Example Playbook
 ----------------
 
