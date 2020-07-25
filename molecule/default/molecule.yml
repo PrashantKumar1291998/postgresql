@@ -9,7 +9,7 @@ platforms:
   - name: centos
     image: centos:6
   - name: ubuntu
-    image: ubuntu
+    image: ubuntu:bionic
 provisioner:
   name: ansible
   lint:

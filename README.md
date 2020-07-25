@@ -8,7 +8,7 @@ Version History
 
 |**Date**| **Version**| **Description**| **Changed By** |
 |----------|---------|---------------|-----------------|
-|**June '15** | v.1.0 | Initial Draft | Sudipt Sharma |
+|**July '25** | v0.0.1 | Initial Draft | [Ishan Ji Gupta](ishan.gupta@opstree.com), [Abhishek Vishwakarma](abhishek.vishwakarma@opstree.com)|
 
 Supported OS
 ------------
@@ -26,6 +26,18 @@ Role Variables
 --------------
 The role variables are defined in the [vars](https://gitlab.com/oosm/osm_pstgresql/tree/master/defaults). Here is the list of variables that is used in this role
 
+|Variable | Description|
+|---------|------------|
+| postgresql_database| Set true when want to create database|
+| version | Define version of postgresql|
+| postgresql_users | Set true when want to create user|
+| user_list_attr | List of users to create|
+| database_list | List of database to create|
+| user| User of the postgreSQL|
+| group | Group of the postgreSQL |
+
+
+
 ```yaml
 # vars file for postgresql
 postgresql_database: true
@@ -41,25 +53,23 @@ database_list:
 user: postgres
 group: postgres
 ```
-|Variable | Description|
-|---------|------------|
-| postgresql_database| Set true when want to create database|
-| version | Define version of postgresql|
-| postgresql_users | Set true when want to create user|
-| user_list_attr | List of users to create|
-| database_list | List of database to create|
-| user| User of the postgreSQL|
-| group | Group of the postgreSQL |
 
+Inventory
+----------
+An inventory should look like this:-
+```ini
+[postgres]                 
+192.168.1.198    ansible_user=ubuntu   
+192.168.3.201    ansible_user=opstree 
 
 Example Playbook
 ----------------
 
 Sample playbook will look something like this,
 
-    - hosts: servers
+    - hosts: postgres
       roles:
-         - osm_postgresql
+         - postgresql
 
 Testing
 ------------

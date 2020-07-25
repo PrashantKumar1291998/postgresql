@@ -9,7 +9,7 @@ galaxy_info:
   min_ansible_version: 2.3
 
   platforms:
-    - name: Centos
+    - name: EL
       versions:
         - 6
         - 7
@@ -19,3 +19,5 @@ galaxy_info:
 
   galaxy_tags:
     - database
+    - postgres
+    - opstree
