@@ -1,0 +1,11 @@
+---
+base_url: https://download.postgresql.org/pub/repos/yum/reporpms
+version_conf: EL-{{ ansible_distribution_major_version }}-x86_64
+package_name: pgdg-redhat-repo-latest.noarch.rpm
+repo_url: "{{ base_url }}/{{ version_conf }}/{{ package_name }}"
+redhat_package:
+  - postgresql-contrib
+  - postgresql-devel
+  - python-psycopg2
+  - postgresql{{ version | replace('.', '') }}
+  - postgresql{{ version | replace('.', '') }}-server

@@ -1,0 +1,10 @@
+---
+- name: create a user in the database
+  become: true
+  become_user: postgres
+  postgresql_user:
+    name: "{{ item.user }}"
+    password: "{{ item.password }}"
+    encrypted: true
+  with_items:
+    - "{{ user_list }}"

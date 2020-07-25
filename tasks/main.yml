@@ -1,0 +1,18 @@
+---
+# Variable setup.
+- name: Include OS-Specific variables
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- include_tasks: setup-RedHat.yml
+  when: ansible_os_family == 'RedHat'
+
+- include_tasks: setup-Debian.yml
+  when: ansible_os_family == 'Debian'
+
+- name: This task is included to create a user in postgresql
+  include: users.yml
+  when: postgresql_users
+
+- name: This task is included to create a postgresql
+  include: database.yml
+  when: postgresql_database
