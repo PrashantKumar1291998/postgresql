@@ -58,7 +58,7 @@ external_pid_file = '/var/run/postgresql/{{ version }}-main.pid'			# write an ex
 {% if   associate_private_ip == true  %}
 listen_addresses = '{{ ansible_eth0.ipv4.address }}'
 
-{% elseif associate_dns_record is defined %}
+{% elif associate_dns_record is defined %}
 listen_addresses = '{{ associate_dns_record }}'
 
 {% else %}

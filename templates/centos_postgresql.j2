@@ -59,7 +59,7 @@ ident_file = '/var/lib/pgsql/{{ version }}/data/pg_ident.conf'	# ident configura
 {% if   associate_private_ip == true  %}
 listen_addresses = '{{ ansible_eth0.ipv4.address }}'
 
-{% elseif associate_dns_record is defined %}
+{% elif associate_dns_record is defined %}
 listen_addresses = '{{ associate_dns_record }}'
 
 {% else %}
