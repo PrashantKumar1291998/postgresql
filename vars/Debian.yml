@@ -5,8 +5,8 @@ postgresql_repo_url:
   - "{{ base_url }}/ {{ version_release }}-pgdg main"
   -  "deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/{{ {{ version_release }} }} pgadmin4 main"
 postgresql_repo_key_url: 
-  - https://www.postgresql.org/media/keys/ACCC4CF8.asc
-  - https://www.pgadmin.org/static/packages_pgadmin_org.pub
+  - "https://www.postgresql.org/media/keys/ACCC4CF8.asc"
+  - "https://www.pgadmin.org/static/packages_pgadmin_org.pub"
 debian_package:
   - python-psycopg2
   - libpq-dev
