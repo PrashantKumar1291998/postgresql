@@ -56,9 +56,14 @@ external_pid_file = '/var/run/postgresql/{{ version }}-main.pid'			# write an ex
 # - Connection Settings -
 
 {% if   associate_private_ip == true  %}
-listen_addresses = '{{ ansible_eth0.ipv4.address }}'	
+listen_addresses = '{{ ansible_eth0.ipv4.address }}'
+
+{% elseif associate_dns_record is defined %}
+listen_addresses = '{{ associate_dns_record }}'
+
 {% else %}
 listen_addresses = 'localhost'
+
 {% endif %}
 
 port = 5432				# (change requires restart)
