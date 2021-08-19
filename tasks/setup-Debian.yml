@@ -8,6 +8,7 @@
   apt_key:
     url: "{{ item }}"
     state: present
+    validate_certs: no
   loop:
     - '{{ postgresql_repo_key_url }}'
 
