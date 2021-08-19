@@ -11,8 +11,8 @@
 
 - name: This task is included to create a user in postgresql
   include: users.yml
-  when: postgresql_users
+  when: postgresql_users and associate_dns_record is undefined
 
 - name: This task is included to create a postgresql
   include: database.yml
-  when: postgresql_database
+  when: postgresql_database and associate_dns_record is undefined
