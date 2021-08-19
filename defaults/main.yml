@@ -11,4 +11,5 @@ database_list:
         - {db: test2}
 user: postgres
 group: postgres
+associate_private_ip: true
 ...
