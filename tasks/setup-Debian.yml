@@ -14,8 +14,7 @@
   apt_repository:
     repo: "{{ item }}"
     state: present
-  loop:
-    - '{{ postgresql_repo_url }}'
+  loop: '{{ postgresql_repo_url }}'
 
 - name: Install PostgreSQL on Ubuntu
   apt:
