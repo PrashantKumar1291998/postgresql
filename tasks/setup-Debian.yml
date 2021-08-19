@@ -6,7 +6,7 @@
 
 - name: Add Postgresql apt repository key.
   apt_key:
-    url: {{ item }}
+    url: "{{ item }}"
     state: present
   loop:
     - '{{ postgresql_repo_key_url }}'
