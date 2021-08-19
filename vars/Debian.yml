@@ -1,8 +1,12 @@
 ---
 base_url: deb http://apt.postgresql.org/pub/repos/apt
 version_release: "{{ ansible_distribution_release }}"
-postgresql_repo_url: "{{ base_url }}/ {{ version_release }}-pgdg main"
-postgresql_repo_key_url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+postgresql_repo_url: 
+  - "{{ base_url }}/ {{ version_release }}-pgdg main"
+  -  "deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/{{ {{ version_release }} }} pgadmin4 main"
+postgresql_repo_key_url: 
+  - https://www.postgresql.org/media/keys/ACCC4CF8.asc
+  - https://www.pgadmin.org/static/packages_pgadmin_org.pub
 debian_package:
   - python-psycopg2
   - libpq-dev

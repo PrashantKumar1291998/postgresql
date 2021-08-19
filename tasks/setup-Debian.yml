@@ -6,13 +6,17 @@
 
 - name: Add Postgresql apt repository key.
   apt_key:
-    url: "{{ postgresql_repo_key_url }}"
+    url: "{{ item }}"
     state: present
+  loop:
+    - '{{ postgresql_repo_key_url }}'
 
 - name: Add Postgresql apt repository.
   apt_repository:
-    repo: "{{ postgresql_repo_url }}"
+    repo: "{{ item }}"
     state: present
+  loop:
+    - '{{ postgresql_repo_url }}'
 
 - name: Install PostgreSQL on Ubuntu
   apt:
