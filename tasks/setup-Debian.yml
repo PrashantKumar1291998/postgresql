@@ -6,7 +6,7 @@
 
 - name: Add Postgresql apt repository key.
   apt_key:
-    url: "https://www.pgadmin.org/static/packages_pgadmixn_org.pub"
+    url: "https://www.pgadmin.org/static/packages_pgadmin_org.pub"
     state: present
 
 - name: Add Postgresql apt repository.
